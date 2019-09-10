@@ -1,4 +1,4 @@
-# Compare three initialisation methods for k-means clustering
+# Compare three initialisation methods for k-means clustering on the projective space
 
 ## [Forgy](https://en.wikipedia.org/wiki/K-means_clustering#Initialization_methods)
 

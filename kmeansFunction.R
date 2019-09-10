@@ -53,19 +53,23 @@ clusterRMSE <- function(X, c) {
         ticker[cTmp] <- ticker[cTmp] + 1
         clust[[cTmp]][ticker[cTmp],] <- X[i,]
     }
-    rmseIndividual <- sapply(clust, function(x) {
+    squaredErrorIndividual <- sapply(clust, function(x) {
                         nTmp <- nrow(x)
                         if(nTmp == 0) {
-                            SEE <- 0
+                            SSE <- 0
                         } else {
                             s <- La.svd(x, nu=0, nv=1)
                             SSE <- nTmp - s$d[1]^2
                         }
+                        SSE
                     })
-    if(any(rmseIndividual < 0)) {
-        whichWss <- which(rmseIndividual < 0)
-        rmseIndividual[whichWss] <- 0
+    if(any(squaredErrorIndividual < 0)) {
+        whichWss <- which(squaredErrorIndividual < 0)
+        squaredErrorIndividual[whichWss] <- 0
     }
-    rmse <- sum(rmseIndividual)
-    return(list(rmse=rmse, rmseEach=rmseIndividual))
+    squaredError <- sum(squaredErrorIndividual)
+    rmse <- sqrt(squaredError / n)
+    return(list(rmse = rmse, 
+                squaredError = squaredError, 
+                squaredErrorEach=squaredErrorIndividual))
 }
